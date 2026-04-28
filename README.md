@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <b>C++ Console Game</b>
+  <img src="https://readme-typing-svg.herokuapp.com?color=93C5FD&size=22&center=true&vCenter=true&width=500&lines=C%2B%2B+Console+Game;User+vs+Computer;Basic+Programming+Project" />
 </p>
 
 ---
@@ -16,7 +16,7 @@ This project is a console-based implementation of the hand cricket game develope
 
 ## ⚙️ Execution
 
-```bash id="runfinalpro"
+```bash id="runfinalpro2"
 g++ hand_cricket.cpp -o game
 ./game
 ```
