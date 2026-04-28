@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:1e3a8a&height=200&section=header&text=Hand%20Cricket%20Game&fontSize=30&fontColor=ffffff&animation=fadeIn" />
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:1e3a8a,100:0f172a&height=180&section=header&text=Hand%20Cricket&fontSize=42&fontColor=ffffff&fontAlignY=50&animation=fadeIn" />
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=93C5FD&size=24&center=true&vCenter=true&width=500&lines=Hand+Cricket+Game;C%2B%2B+Console+Application" />
+  <b>C++ Console Game</b>
 </p>
 
 ---
@@ -16,7 +16,7 @@ This project is a console-based implementation of the hand cricket game develope
 
 ## ⚙️ Execution
 
-```bash id="runpro2"
+```bash id="runfinalpro"
 g++ hand_cricket.cpp -o game
 ./game
 ```
