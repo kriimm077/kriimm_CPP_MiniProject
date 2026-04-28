@@ -10,6 +10,10 @@
   <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge"/>
 </p>
 
+<p align="center">
+  <img src="https://media.giphy.com/media/Ju7l5y9osyymQ/giphy.gif" width="420"/>
+</p>
+
 ---
 
 ## 📌 Overview
@@ -29,7 +33,7 @@ A simple console-based hand cricket game where the user plays against the comput
 
 ## ⚙️ Run
 
-```bash id="runfinal"
+```bash id="runfinal2"
 g++ hand_cricket.cpp -o game
 ./game
 ```
