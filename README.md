@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img src="https://media.giphy.com/media/Ju7l5y9osyymQ/giphy.gif" width="420"/>
+  <img src="https://media.giphy.com/media/26BRuo6sLetdllPAQ/giphy.gif" width="420"/>
 </p>
 
 ---
@@ -33,7 +33,7 @@ A simple console-based hand cricket game where the user plays against the comput
 
 ## ⚙️ Run
 
-```bash id="runfinal2"
+```bash
 g++ hand_cricket.cpp -o game
 ./game
 ```
