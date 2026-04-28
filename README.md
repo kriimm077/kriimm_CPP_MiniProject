@@ -1,46 +1,39 @@
-# 🏏 Hand Cricket Game (C++)
-
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=38BDF8&size=26&center=true&vCenter=true&width=600&lines=Hand+Cricket+Game;C%2B%2B+Console+Project;User+vs+Computer" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:1e3a8a&height=200&section=header&text=Hand%20Cricket%20Game&fontSize=30&fontColor=ffffff&animation=fadeIn" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Language-C++-blue?style=for-the-badge&logo=c%2B%2B"/>
-  <img src="https://img.shields.io/badge/Level-First%20Year-green?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge"/>
-</p>
-
-<p align="center">
-  <img src="https://media.giphy.com/media/26BRuo6sLetdllPAQ/giphy.gif" width="420"/>
+  <img src="https://readme-typing-svg.herokuapp.com?color=93C5FD&size=24&center=true&vCenter=true&width=500&lines=Hand+Cricket+Game;C%2B%2B+Console+Application" />
 </p>
 
 ---
 
-## 📌 Overview
+## 📌 Project Overview
 
-A simple console-based hand cricket game where the user plays against the computer using random number logic.
-
----
-
-## 🎮 Gameplay
-
-* Choose batting or bowling
-* Enter numbers (1–6)
-* Same number = OUT
-* Score runs and chase target
+This project is a console-based implementation of the hand cricket game developed using C++. It allows a user to play against the computer through a simple number-based mechanism. The program demonstrates fundamental programming concepts such as control structures, loops, and random number generation.
 
 ---
 
-## ⚙️ Run
+## ⚙️ Execution
 
-```bash
+```bash id="runpro2"
 g++ hand_cricket.cpp -o game
 ./game
 ```
 
 ---
 
-## 🛠️ Tech
+## 🎮 Game Logic
+
+* The player selects batting or bowling
+* Both user and computer choose numbers (1–6)
+* Matching values result in dismissal
+* Runs are accumulated otherwise
+* The second innings is played to chase the target
+
+---
+
+## 🛠️ Technologies
 
 * C++
 * Standard Library
@@ -55,5 +48,5 @@ Enrollment ID: **25CS067**
 ---
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=FACC15&size=18&center=true&vCenter=true&width=400&lines=Thanks+for+checking+this+out!;Give+it+a+star+⭐" />
+  <sub>Simple academic project demonstrating basic C++ concepts</sub>
 </p>
