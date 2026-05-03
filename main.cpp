@@ -16,8 +16,21 @@ int main() {
         cout << "You are batting\n";
 
         while(true) {
-            cout << "Enter number (1-6): ";
-            cin >> user;
+            while(true) {
+                cout << "Enter number (1-6): ";
+                cin >> user;
+
+                if(cin.fail()) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    cout << "Invalid input! Enter numbers only.\n";
+                    continue;
+                }
+
+                if(user >= 1 && user <= 6) break;
+                else cout << "Invalid input! Please enter 1-6 only.\n";
+            }
+
             comp = rand()%6 + 1;
             cout << "Computer: " << comp << endl;
 
@@ -34,8 +47,21 @@ int main() {
         cout << "Now bowl\n";
 
         while(score < target) {
-            cout << "Enter number (1-6): ";
-            cin >> user;
+            while(true) {
+                cout << "Enter number (1-6): ";
+                cin >> user;
+
+                if(cin.fail()) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    cout << "Invalid input! Enter numbers only.\n";
+                    continue;
+                }
+
+                if(user >= 1 && user <= 6) break;
+                else cout << "Invalid input! Please enter 1-6 only.\n";
+            }
+
             comp = rand()%6 + 1;
             cout << "Computer: " << comp << endl;
 
@@ -52,8 +78,21 @@ int main() {
         cout << "You are bowling\n";
 
         while(true) {
-            cout << "Enter number (1-6): ";
-            cin >> user;
+            while(true) {
+                cout << "Enter number (1-6): ";
+                cin >> user;
+
+                if(cin.fail()) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    cout << "Invalid input! Enter numbers only.\n";
+                    continue;
+                }
+
+                if(user >= 1 && user <= 6) break;
+                else cout << "Invalid input! Please enter 1-6 only.\n";
+            }
+
             comp = rand()%6 + 1;
             cout << "Computer: " << comp << endl;
 
@@ -70,8 +109,21 @@ int main() {
         cout << "Now bat\n";
 
         while(score < target) {
-            cout << "Enter number (1-6): ";
-            cin >> user;
+            while(true) {
+                cout << "Enter number (1-6): ";
+                cin >> user;
+
+                if(cin.fail()) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    cout << "Invalid input! Enter numbers only.\n";
+                    continue;
+                }
+
+                if(user >= 1 && user <= 6) break;
+                else cout << "Invalid input! Please enter 1-6 only.\n";
+            }
+
             comp = rand()%6 + 1;
             cout << "Computer: " << comp << endl;
 
