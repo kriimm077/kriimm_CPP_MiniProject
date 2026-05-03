@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🏏 HAND CRICKET PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    :root {
+        --primary: #00f0ff;
+        --accent: #ff2a9d;
+        --gold: #ffd700;
+        --green: #00ff88;
+        --dark: #0a0f1f;
+    }
+   
+    * { margin:0; padding:0; box-sizing:border-box; }
+   
+    body {
+        margin:0;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: var(--dark);
+        color: white;
+        overflow: hidden;
+        height: 100dvh;
+        touch-action: manipulation;
+    }
+
+    .header {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        padding: 16px;
+        background: linear-gradient(#1a2540, #0f1629);
+        text-align: center;
+        font-size: 1.95rem;
+        font-weight: 800;
+        letter-spacing: 4px;
+        z-index: 100;
+        box-shadow: 0 4px 25px rgba(0,240,255,0.25);
+    }
+
+    #gameContainer {
+        position: relative;
+        height: calc(100dvh - 72px);
+        margin-top: 72px;
+        background: linear-gradient(to bottom, #3d8f4f 30%, #1e5c2f);
+        overflow: hidden;
+    }
+
+    .pitch {
+        position: absolute;
+        top: 48%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 520px; height: 210px;
+        background: repeating-linear-gradient(38deg, #e8d5a3, #e8d5a3 38px, #d4b87f 38px, #d4b87f 76px);
+        border: 16px solid #b38b2e;
+        border-radius: 8px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+        z-index: 2;
+    }
+
+    .hand-container {
+        position: absolute;
+        bottom: 85px;
+        width: 210px;
+        height: 220px;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .hand-left { left: 8%; }
+    .hand-right { right: 8%; }
+
+    .hand {
+        width: 100%; height: 100%;
+        background: linear-gradient(145deg, #f8c78c, #e08c4c);
+        border-radius: 48% 48% 42% 42%;
+        box-shadow: 0 25px 55px rgba(0,0,0,0.75), inset 0 20px 35px rgba(255,255,255,0.35);
+        position: relative;
+        border: 12px solid #fff;
+    }
+
+    .fingers {
+        position: absolute;
+        top: 24%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+    }
+
+    .finger {
+        width: 20px;
+        background: linear-gradient(#ffe8c4, #e8c090);
+        border-radius: 50px;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.45);
+    }
+
+    #central {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        z-index: 30;
+        pointer-events: none;
+    }
+
+    #bigNumber {
+        font-size: 9rem;
+        font-weight: 900;
+        line-height: 1;
+        color: #fff;
+        text-shadow: 0 0 40px var(--gold), 0 0 80px var(--accent);
+    }
+
+    #commentary {
+        font-size: 2.6rem;
+        font-weight: 800;
+        color: var(--gold);
+        text-shadow: 0 4px 20px #000;
+        min-height: 70px;
+    }
+
+    .num-pad {
+        position: fixed;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: grid;
+        grid-template-columns: repeat(6, 72px);
+        gap: 16px;
+        z-index: 50;
+    }
+
+    .num-btn {
+        width: 72px; height: 72px;
+        font-size: 2.3rem;
+        font-weight: bold;
+        background: linear-gradient(145deg, #ffd700, #ffaa00);
+        color: #111;
+        border: 6px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 12px 35px rgba(255,215,0,0.65);
+        transition: all 0.2s;
+    }
+
+    .num-btn:active { transform: scale(0.82) rotate(12deg); }
+
+    .popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(8,12,28,0.96);
+        display: none;
+        flex-direction: column;
+        align-items:center;
+        justify-content:center;
+        z-index: 200;
+    }
+
+    @keyframes popAnim {
+        0% { transform: scale(0.3) rotate(-8deg); }
+        60% { transform: scale(1.18); }
+        100% { transform: scale(1); }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">🏏 HAND CRICKET PRO</div>
+
+<!-- HOME -->
+<div id="homeScreen" class="popup" style="display:flex;background:linear-gradient(135deg,#0a0f1f,#1a2540);">
+    <h1 style="font-size:5.5rem;background:linear-gradient(90deg,#00f0ff,#ff2a9d,#00f0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">HAND CRICKET</h1>
+    <p style="margin:25px 0 60px;font-size:1.6rem;opacity:0.9;">The Legend Returns</p>
+    <button onclick="startToss()" style="padding:22px 80px;font-size:1.7rem;background:linear-gradient(#00f0ff,#0099cc);color:#000;border:none;border-radius:60px;">PLAY MATCH</button>
+</div>
+
+<!-- TOSS -->
+<div id="tossScreen" class="popup">
+    <h2 style="font-size:3.2rem;margin-bottom:25px;">TOSS TIME</h2>
+    <div id="coin" style="font-size:180px;margin:30px 0;transition:transform 2.2s;">🪙</div>
+    <p style="font-size:1.45rem;margin-bottom:45px;">Choose Heads or Tails</p>
+    <button onclick="flipToss('Heads')" style="padding:18px 60px;margin:10px;font-size:1.45rem;background:#22cc88;border:none;border-radius:50px;">HEADS</button>
+    <button onclick="flipToss('Tails')" style="padding:18px 60px;margin:10px;font-size:1.45rem;background:#22cc88;border:none;border-radius:50px;">TAILS</button>
+</div>
+
+<!-- TOSS RESULT + CHOICE -->
+<div id="tossResultPopup" class="popup">
+    <h2 id="tossResultText" style="font-size:2.8rem;margin-bottom:30px;text-align:center;"></h2>
+    
+    <div id="tossChoice" style="display:none; margin-top:20px;">
+        <p style="font-size:1.5rem;margin-bottom:25px;">What will you choose?</p>
+        <button onclick="chooseInnings(true)" style="padding:18px 55px;margin:10px;font-size:1.5rem;background:#00cc77;border:none;border-radius:50px;">BAT FIRST</button>
+        <button onclick="chooseInnings(false)" style="padding:18px 55px;margin:10px;font-size:1.5rem;background:#ff5555;border:none;border-radius:50px;">BOWL FIRST</button>
+    </div>
+
+    <button id="continueBtn" onclick="proceedAfterToss()" style="display:none;padding:20px 70px;font-size:1.5rem;background:linear-gradient(#00f0ff,#0099cc);color:#000;border:none;border-radius:60px;margin-top:30px;">CONTINUE →</button>
+</div>
+
+<!-- GAME -->
+<div id="gameContainer" style="display:none;">
+    <div class="pitch"></div>
+
+    <div class="hand-container hand-left" id="playerContainer">
+        <div class="hand" id="playerHand">
+            <div class="fingers" id="playerFingers"></div>
+        </div>
+    </div>
+
+    <div class="hand-container hand-right" id="cpuContainer">
+        <div class="hand" id="cpuHand">
+            <div class="fingers" id="cpuFingers"></div>
+        </div>
+    </div>
+
+    <div id="central">
+        <div id="bigNumber">—</div>
+        <div id="commentary">YOUR MOVE</div>
+    </div>
+
+    <div id="statusText" style="position:absolute;top:28px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);padding:12px 40px;border-radius:50px;z-index:40;font-weight:700;border:2px solid var(--primary);">
+    </div>
+
+    <div style="position:absolute;top:105px;right:30px;background:rgba(0,0,0,0.8);padding:14px 32px;border-radius:16px;z-index:40;text-align:right;border:1px solid var(--gold);">
+        <div id="scoreDisplay" style="font-size:2.1rem;font-weight:bold;">0 - 0</div>
+        <div id="targetDisplay" style="color:var(--gold);">Target —</div>
+    </div>
+
+    <div class="num-pad">
+        <button class="num-btn" onclick="playMove(1)">1</button>
+        <button class="num-btn" onclick="playMove(2)">2</button>
+        <button class="num-btn" onclick="playMove(3)">3</button>
+        <button class="num-btn" onclick="playMove(4)">4</button>
+        <button class="num-btn" onclick="playMove(5)">5</button>
+        <button class="num-btn" onclick="playMove(6)">6</button>
+    </div>
+</div>
+
+<!-- Result Popup -->
+<div id="resultPopup" class="popup">
+    <h2 id="finalResult" style="font-size:4.2rem;margin:20px 0;"></h2>
+    <div id="finalScore" style="font-size:2.4rem;margin:20px 0;"></div>
+    <button onclick="location.reload()" style="padding:20px 70px;font-size:1.5rem;background:linear-gradient(#ffd700,#ff8800);color:#111;border:none;border-radius:60px;">PLAY AGAIN</button>
+</div>
+
+<script>
+// =============== GAME STATE ===============
+let playerScore = 0, cpuScore = 0, balls = 6, innings = 1, target = 0;
+let isPlayerBatting = true;
+let gameActive = false;
+let isProcessing = false;
+
+// =============== DOM ===============
+const $ = id => document.getElementById(id);
+
+// =============== FINGERS ===============
+function createFingers(containerId, num) {
+    const container = $(containerId);
+    container.innerHTML = '';
+    if (num === 6) {
+        const t = document.createElement('div');
+        t.style.width = '42px'; t.style.height = '58px';
+        t.style.background = 'linear-gradient(#ffe8c4,#e8c090)';
+        t.style.borderRadius = '50%';
+        t.style.transform = 'rotate(45deg)';
+        container.appendChild(t);
+    } else {
+        for (let i = 0; i < num; i++) {
+            const f = document.createElement('div');
+            f.className = 'finger';
+            f.style.height = (44 + i*9) + 'px';
+            container.appendChild(f);
+        }
+    }
+}
+
+function showPopNumber(num) {
+    const el = $('bigNumber');
+    el.textContent = num + (num >= 4 ? "!!!" : "");
+    el.style.animation = 'popAnim 0.65s';
+}
+
+function animateHand(isPlayer) {
+    const container = isPlayer ? $('playerContainer') : $('cpuContainer');
+    container.style.transform = isPlayer ? 'scale(0.75) translateY(35px)' : 'scale(0.82) translateY(-25px)';
+    setTimeout(() => container.style.transform = '', 320);
+}
+
+// =============== PLAY MOVE ===============
+async function playMove(playerNum) {
+    if (!gameActive || isProcessing) return;
+    isProcessing = true;
+
+    const cpuNum = Math.floor(Math.random() * 6) + 1;
+
+    animateHand(true);
+    animateHand(false);
+    createFingers('playerFingers', playerNum);
+    createFingers('cpuFingers', cpuNum);
+    showPopNumber(playerNum);
+
+    await new Promise(r => setTimeout(r, 420));
+
+    if (playerNum === cpuNum) {
+        $('commentary').innerHTML = "🥾 <span style='color:#ff3366'>OUT!</span>";
+        new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3').play();
+
+        if (innings === 1) {
+            innings = 2;
+            target = playerScore + 1;
+            isPlayerBatting = !isPlayerBatting;
+            balls = 6;
+        } else {
+            endGame();
+        }
+    } else {
+        const runs = isPlayerBatting ? playerNum : cpuNum;
+        if (isPlayerBatting) playerScore += runs;
+        else cpuScore += runs;
+
+        const comm = $('commentary');
+        comm.textContent = runs === 6 ? "SIXER 🔥" : runs === 4 ? "FOUR! 💥" : "Nice Shot!";
+        
+        if (runs >= 4) new Audio('https://assets.mixkit.co/sfx/preview/mixkit-stadium-crowd-cheer-2023.mp3').play();
+        else new Audio('https://assets.mixkit.co/sfx/preview/mixkit-baseball-hit-ball-2073.mp3').play();
+    }
+
+    $('scoreDisplay').textContent = `${playerScore} - ${cpuScore}`;
+    balls--;
+
+    if (balls <= 0 && innings === 1) {
+        innings = 2;
+        target = playerScore + 1;
+        isPlayerBatting = !isPlayerBatting;
+        balls = 6;
+    }
+
+    if (innings === 2) {
+        if ((isPlayerBatting && playerScore >= target) || (!isPlayerBatting && cpuScore >= target)) {
+            endGame();
+        }
+    }
+
+    updateStatus();
+    isProcessing = false;
+}
+
+function updateStatus() {
+    $('statusText').textContent = `${innings}st Innings • ${isPlayerBatting ? 'BATTING' : 'BOWLING'}`;
+    if (target > 0) $('targetDisplay').textContent = `Target: ${target}`;
+}
+
+// =============== TOSS LOGIC ===============
+function startToss() {
+    $('homeScreen').style.display = 'none';
+    $('tossScreen').style.display = 'flex';
+}
+
+function flipToss(choice) {
+    const coin = $('coin');
+    coin.style.transform = 'rotate(2160deg)';
+
+    setTimeout(() => {
+        const isHeads = Math.random() > 0.5;
+        const userWon = (choice === "Heads" && isHeads) || (choice === "Tails" && !isHeads);
+
+        $('tossScreen').style.display = 'none';
+        $('tossResultPopup').style.display = 'flex';
+
+        if (userWon) {
+            $('tossResultText').innerHTML = "🎉 YOU WON THE TOSS!";
+            $('tossChoice').style.display = 'block';
+            $('continueBtn').style.display = 'none';
+        } else {
+            $('tossResultText').innerHTML = "Computer won the toss and chose to <b>BAT</b> first.";
+            isPlayerBatting = false;   // CPU bats first
+            $('tossChoice').style.display = 'none';
+            $('continueBtn').style.display = 'block';
+        }
+    }, 1800);
+}
+
+function chooseInnings(bat) {
+    isPlayerBatting = bat;
+    $('tossResultText').innerHTML += `<br><small>You chose to ${bat ? 'BAT' : 'BOWL'} first</small>`;
+    $('tossChoice').style.display = 'none';
+    $('continueBtn').style.display = 'block';
+}
+
+function proceedAfterToss() {
+    $('tossResultPopup').style.display = 'none';
+    $('gameContainer').style.display = 'block';
+    
+    gameActive = true;
+    balls = 6;
+    innings = 1;
+    playerScore = cpuScore = 0;
+    target = 0;
+
+    updateStatus();
+    createFingers('playerFingers', 3);
+    createFingers('cpuFingers', 3);
+}
+
+function endGame() {
+    gameActive = false;
+    const playerWon = (isPlayerBatting && playerScore >= target) || (!isPlayerBatting && cpuScore < target);
+    
+    $('finalResult').innerHTML = playerWon ? "🏆 YOU WIN!" : "💻 CPU WINS";
+    $('finalScore').innerHTML = `FINAL SCORE<br><b style="font-size:3rem;">${playerScore} - ${cpuScore}</b>`;
+    $('resultPopup').style.display = 'flex';
+}
+
+// Keyboard Support
+document.addEventListener('keydown', e => {
+    if (gameActive && !isProcessing && e.key >= '1' && e.key <= '6') playMove(+e.key);
+});
+</script>
+</body>
+</html>
