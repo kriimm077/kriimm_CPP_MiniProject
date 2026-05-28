@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hand Cricket Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -24,18 +24,10 @@
     <h1 class="text-4xl font-bold flex items-center gap-3">
       <span class="text-green-500">🏏</span> Hand Cricket Pro
     </h1>
-    <div class="flex gap-4">
-      <button onclick="showRules()" class="px-5 py-2 bg-gray-800 hover:bg-gray-700 rounded-xl">
-        <i class="fas fa-book"></i>
-      </button>
-      <button onclick="resetAll()" class="px-5 py-2 bg-gray-800 hover:bg-gray-700 rounded-xl">
-        <i class="fas fa-redo"></i>
-      </button>
-    </div>
   </div>
 
   <!-- Menu -->
-  <div id="menuScreen">
+  <div id="menuScreen" class="hidden">
     <div class="text-center py-16">
       <h2 class="text-5xl font-bold mb-3">Ready for the Match?</h2>
       <p class="text-gray-400 text-xl mb-10">Choose Difficulty</p>
@@ -50,7 +42,6 @@
 
   <!-- Game Screen -->
   <div id="gameScreen" class="hidden">
-
     <!-- Scoreboard -->
     <div class="bg-gray-900/80 border border-green-500/30 rounded-3xl p-6 mb-6">
       <div class="grid grid-cols-3 text-center">
@@ -72,7 +63,6 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
       <!-- Player Area -->
       <div class="lg:col-span-1 bg-gray-900 rounded-3xl p-6">
         <p class="text-center mb-4 font-medium text-lg">Your Move</p>
@@ -84,9 +74,7 @@
         <div id="compHand" class="h-40 flex items-center justify-center text-9xl border-4 border-dashed border-gray-700 rounded-3xl mb-6">
           🤜
         </div>
-        
         <div id="result" class="text-center text-3xl font-bold min-h-[80px]"></div>
-        
         <div id="commentary" class="text-center text-green-400 italic mt-4 min-h-[50px]"></div>
       </div>
 
@@ -117,17 +105,24 @@
     </button>
   </div>
 
-  <!-- Rules Modal -->
-  <div id="rulesModal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+  <!-- Rules Modal (Now shows by default) -->
+  <div id="rulesModal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
     <div class="bg-gray-900 p-8 rounded-3xl max-w-md w-full mx-4">
-      <h3 class="text-3xl font-bold mb-6">Rules</h3>
+      <h3 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <span>🏏</span> How to Play
+      </h3>
       <ul class="space-y-4 text-gray-300">
-        <li class="flex gap-3"><span class="text-green-400">•</span> Same number = OUT</li>
+        <li class="flex gap-3"><span class="text-green-400">•</span> Both show 1 to 6 fingers</li>
+        <li class="flex gap-3"><span class="text-green-400">•</span> Same number = <strong>OUT</strong></li>
         <li class="flex gap-3"><span class="text-green-400">•</span> Different number = Score that many runs</li>
         <li class="flex gap-3"><span class="text-green-400">•</span> 3 wickets per innings</li>
         <li class="flex gap-3"><span class="text-green-400">•</span> 5 overs per innings</li>
+        <li class="flex gap-3"><span class="text-green-400">•</span> You bat first</li>
       </ul>
-      <button onclick="hideRules()" class="mt-8 w-full py-4 bg-green-600 rounded-2xl text-lg font-semibold">Got it, Let's Play!</button>
+      <button onclick="startAfterRules()" 
+              class="mt-8 w-full py-5 bg-green-600 hover:bg-green-500 rounded-2xl text-xl font-semibold">
+        Got it! Start Playing
+      </button>
     </div>
   </div>
 </div>
@@ -141,12 +136,16 @@ let currentInning = 1;
 let isPlayerBatting = true;
 let difficulty = 2;
 let gameActive = false;
-let highScore = localStorage.getItem('hcHighScore') || 0;
 
 // Audio
 const clickSound = new Audio('https://freesound.org/data/previews/66/66930_931655-lq.mp3');
 const outSound = new Audio('https://freesound.org/data/previews/387/387186_7258994-lq.mp3');
 const cheerSound = new Audio('https://freesound.org/data/previews/320/320181_5270808-lq.mp3');
+
+function startAfterRules() {
+  document.getElementById('rulesModal').classList.add('hidden');
+  document.getElementById('menuScreen').classList.remove('hidden');
+}
 
 function startMatch(diff) {
   difficulty = diff;
@@ -172,14 +171,11 @@ function createHandButtons() {
   });
 }
 
+// Rest of your game logic (same as before)
 function playerMove(playerChoice) {
   if (!gameActive) return;
-
   clickSound.play();
-
   const compChoice = getComputerMove(playerChoice);
-  
-  // Show computer hand
   document.getElementById('compHand').textContent = ['👆','✌️','👌','🖐️','🖖','✊'][compChoice-1];
 
   let runs = 0;
@@ -206,23 +202,13 @@ function playerMove(playerChoice) {
     balls = 0;
     overs++;
   }
-
   checkInningEnd();
 }
 
 function getComputerMove(playerChoice) {
-  let choices = [1,2,3,4,5,6];
-  
-  if (difficulty === 1) {
-    // Easy - often misses
-    return choices[Math.floor(Math.random() * 6)];
-  } else if (difficulty === 2) {
-    // Medium
-    return Math.random() < 0.4 ? playerChoice : choices[Math.floor(Math.random() * 6)];
-  } else {
-    // Hard - smarter
-    return Math.random() < 0.65 ? playerChoice : choices[Math.floor(Math.random() * 6)];
-  }
+  if (difficulty === 1) return Math.floor(Math.random() * 6) + 1;
+  if (difficulty === 2) return Math.random() < 0.4 ? playerChoice : Math.floor(Math.random() * 6) + 1;
+  return Math.random() < 0.65 ? playerChoice : Math.floor(Math.random() * 6) + 1;
 }
 
 function updateScoreboard() {
@@ -235,9 +221,7 @@ function updateScoreboard() {
 
 function updateCommentary(text) {
   document.getElementById('commentary').textContent = text;
-  setTimeout(() => {
-    document.getElementById('commentary').textContent = '';
-  }, 2500);
+  setTimeout(() => document.getElementById('commentary').textContent = '', 2500);
 }
 
 function addToHistory(p, c, runs, isOut) {
@@ -278,8 +262,6 @@ function resetInning() {
   balls = 0;
   if (currentInning === 1) {
     playerScore = 0; playerWickets = 0;
-  } else {
-    // Second innings already has scores
   }
   updateScoreboard();
 }
@@ -306,26 +288,14 @@ function endMatch() {
     You: <span class="text-green-400">${playerScore}</span> - 
     Computer: <span class="text-blue-400">${compScore}</span>
   `;
-
-  // Save high score
-  if (playerScore > highScore) {
-    highScore = playerScore;
-    localStorage.setItem('hcHighScore', highScore);
-  }
 }
 
 function confetti() {
-  confetti({
-    particleCount: 150,
-    spread: 70,
-    origin: { y: 0.6 }
-  });
+  confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
 }
 
 function quitMatch() {
-  if (confirm("Quit current match?")) {
-    resetAll();
-  }
+  if (confirm("Quit current match?")) resetAll();
 }
 
 function resetAll() {
@@ -340,13 +310,10 @@ function hideRules() {
   document.getElementById('rulesModal').classList.add('hidden');
 }
 
-// Keyboard support
-document.addEventListener('keydown', (e) => {
-  if (!gameActive) return;
-  if (e.key >= '1' && e.key <= '6') {
-    playerMove(parseInt(e.key));
-  }
-});
+// Show Rules by Default when page loads
+window.onload = function() {
+  document.getElementById('rulesModal').classList.remove('hidden');
+};
 </script>
 </body>
 </html>
