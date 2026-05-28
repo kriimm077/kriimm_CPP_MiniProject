@@ -2,22 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>🏏 HAND CRICKET PRO</title>
+<title>HAND CRICKET PRO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     :root {
         --primary: #00f0ff;
         --accent: #ff2a9d;
         --gold: #ffd700;
-        --green: #00ff88;
         --dark: #0a0f1f;
     }
-  
+
     * { margin:0; padding:0; box-sizing:border-box; }
-  
+    
     body {
         font-family: 'Segoe UI', system-ui, sans-serif;
-        background: linear-gradient(135deg, #0a0f1f, #1a2540);
+        background: linear-gradient(135deg, #0a0f1f 0%, #1a2540 100%);
         color: white;
         overflow: hidden;
         height: 100dvh;
@@ -27,212 +26,220 @@
     .header {
         position: fixed;
         top: 0; left: 0; right: 0;
-        padding: 18px;
+        padding: 20px;
         background: linear-gradient(#1a2540, #0f1629);
         text-align: center;
-        font-size: 2.1rem;
+        font-size: 2.3rem;
         font-weight: 900;
-        letter-spacing: 5px;
+        letter-spacing: 6px;
         z-index: 100;
-        box-shadow: 0 6px 30px rgba(0,240,255,0.3);
-        text-shadow: 0 0 20px var(--primary);
+        box-shadow: 0 8px 30px rgba(0,240,255,0.25);
     }
 
     #gameContainer {
         position: relative;
-        height: calc(100dvh - 78px);
-        margin-top: 78px;
-        background: linear-gradient(to bottom, #1e5c2f 25%, #0f3a1f);
+        height: calc(100dvh - 82px);
+        margin-top: 82px;
+        background: linear-gradient(to bottom, #1e5c2f 30%, #0f3a1f);
         overflow: hidden;
     }
 
-    /* === IMPROVED PITCH === */
     .pitch {
         position: absolute;
         top: 48%; left: 50%;
         transform: translate(-50%, -50%);
-        width: 560px; height: 240px;
-        background: repeating-linear-gradient(38deg, 
-            #e8d5a3 0px, #e8d5a3 35px, 
-            #d4b87f 35px, #d4b87f 70px);
-        border: 18px solid #8b5a1a;
-        border-radius: 12px;
-        box-shadow: 
-            0 35px 90px rgba(0,0,0,0.85),
-            inset 0 0 60px rgba(255,255,255,0.15);
+        width: 580px; height: 260px;
+        background: repeating-linear-gradient(38deg, #e8d5a3 0px, #e8d5a3 36px, #d4b87f 36px, #d4b87f 72px);
+        border: 20px solid #8b5a1a;
+        border-radius: 15px;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.9), inset 0 0 80px rgba(255,255,255,0.2);
         z-index: 2;
     }
 
-    .pitch::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(transparent, rgba(255,255,255,0.08));
-        border-radius: 8px;
-    }
-
-    /* === REALISTIC HANDS === */
+    /* Hands */
     .hand-container {
         position: absolute;
-        bottom: 85px;
-        width: 230px;
-        height: 260px;
-        cursor: pointer;
+        bottom: 80px;
+        width: 240px;
+        height: 270px;
         z-index: 10;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+        transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.45);
     }
-    .hand-left { left: 8%; }
-    .hand-right { right: 8%; }
+    .hand-left { left: 7%; }
+    .hand-right { right: 7%; }
 
     .hand {
         width: 100%; height: 100%;
         background: linear-gradient(145deg, #f8d4a0, #e89c5e, #d67f3a);
-        border-radius: 50% 50% 45% 45%;
-        box-shadow: 
-            0 30px 70px rgba(0,0,0,0.8),
-            inset 0 25px 40px rgba(255,255,255,0.45),
-            inset 0 -15px 30px rgba(0,0,0,0.4);
+        border-radius: 50% 50% 42% 42%;
+        box-shadow: 0 35px 80px rgba(0,0,0,0.85), inset 0 30px 45px rgba(255,255,255,0.4);
+        border: 16px solid #fff;
         position: relative;
-        border: 14px solid #fff;
         overflow: hidden;
-    }
-
-    .hand::before {
-        content: '';
-        position: absolute;
-        top: 25%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 85%;
-        height: 55%;
-        background: rgba(255,255,255,0.25);
-        border-radius: 50%;
-        filter: blur(8px);
     }
 
     .fingers {
         position: absolute;
-        top: 22%;
+        top: 20%;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
-        gap: 10px;
+        gap: 11px;
         z-index: 2;
     }
 
     .finger {
-        width: 22px;
+        width: 23px;
         background: linear-gradient(#ffe8c4, #e8b878);
-        border-radius: 50px 50px 20px 20px;
-        box-shadow: 0 8px 15px rgba(0,0,0,0.5);
-        transition: all 0.3s;
+        border-radius: 50px 50px 18px 18px;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.5);
     }
 
-    /* === CENTRAL DISPLAY === */
+    /* CPU Choice */
+    #cpuChoice {
+        position: absolute;
+        top: 18%;
+        right: 10%;
+        background: rgba(0,0,0,0.8);
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-size: 1.55rem;
+        font-weight: bold;
+        color: var(--accent);
+        display: none;
+        z-index: 25;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+        border: 2px solid var(--accent);
+    }
+
     #central {
         position: absolute;
-        top: 32%;
+        top: 30%;
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
         z-index: 30;
-        pointer-events: none;
     }
     #bigNumber {
-        font-size: 10rem;
+        font-size: 10.5rem;
         font-weight: 900;
-        line-height: 1;
-        color: #fff;
-        text-shadow: 
-            0 0 40px var(--gold),
-            0 0 80px var(--accent),
-            0 0 120px #ff00ff;
+        line-height: 0.9;
+        color: white;
+        text-shadow: 0 0 50px var(--gold), 0 0 100px var(--accent);
     }
-
     #commentary {
         font-size: 2.8rem;
         font-weight: 900;
         color: var(--gold);
-        text-shadow: 0 4px 25px #000;
-        min-height: 75px;
-        margin-top: 10px;
+        min-height: 80px;
+        text-shadow: 0 5px 20px #000;
     }
 
-    /* === UI IMPROVEMENTS === */
     .num-pad {
         position: fixed;
-        bottom: 35px;
+        bottom: 38px;
         left: 50%;
         transform: translateX(-50%);
         display: grid;
-        grid-template-columns: repeat(6, 78px);
-        gap: 18px;
+        grid-template-columns: repeat(6, 82px);
+        gap: 20px;
         z-index: 50;
     }
     .num-btn {
-        width: 78px; height: 78px;
-        font-size: 2.4rem;
+        width: 82px; height: 82px;
+        font-size: 2.5rem;
         font-weight: bold;
         background: linear-gradient(145deg, #ffd700, #ffaa00);
         color: #111;
-        border: 7px solid #fff;
+        border: 8px solid white;
         border-radius: 50%;
-        box-shadow: 0 15px 40px rgba(255,215,0,0.7);
+        box-shadow: 0 18px 45px rgba(255,215,0,0.75);
         transition: all 0.2s;
     }
     .num-btn:active {
-        transform: scale(0.78) rotate(15deg);
-        box-shadow: 0 8px 20px rgba(255,215,0,0.5);
+        transform: scale(0.75) rotate(18deg);
     }
 
     .popup {
         position: fixed;
         inset: 0;
-        background: rgba(8,12,28,0.97);
+        background: rgba(8,12,28,0.96);
         display: none;
         flex-direction: column;
-        align-items:center;
-        justify-content:center;
+        align-items: center;
+        justify-content: center;
         z-index: 200;
     }
 
     @keyframes popAnim {
-        0% { transform: scale(0.2) rotate(-12deg); }
-        50% { transform: scale(1.25); }
+        0% { transform: scale(0.1) rotate(-15deg); }
+        60% { transform: scale(1.22); }
         100% { transform: scale(1); }
     }
 </style>
 </head>
 <body>
+
 <div class="header">🏏 HAND CRICKET PRO</div>
 
-<!-- GAME CONTAINER -->
-<div id="gameContainer">
+<!-- Home Screen -->
+<div id="homeScreen" class="popup" style="display:flex;">
+    <h1 style="font-size:5.8rem; background:linear-gradient(90deg,#00f0ff,#ff2a9d,#00f0ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:20px;">
+        HAND CRICKET
+    </h1>
+    <p style="font-size:1.7rem; opacity:0.9; margin-bottom:60px;">The Ultimate Finger Battle</p>
+    <button onclick="startToss()" style="padding:24px 90px; font-size:1.8rem; background:linear-gradient(#00f0ff,#0099cc); color:#000; border:none; border-radius:60px; font-weight:bold;">
+        PLAY MATCH
+    </button>
+</div>
+
+<!-- Toss Screen -->
+<div id="tossScreen" class="popup">
+    <h2 style="font-size:3.4rem; margin-bottom:30px;">TOSS TIME</h2>
+    <div id="coin" style="font-size:200px; margin:30px 0; transition:transform 2.5s;">🪙</div>
+    <p style="font-size:1.6rem; margin-bottom:40px;">Choose Heads or Tails</p>
+    <button onclick="flipToss('Heads')" style="padding:20px 70px; margin:12px; font-size:1.6rem; background:#22cc88; border:none; border-radius:50px;">HEADS</button>
+    <button onclick="flipToss('Tails')" style="padding:20px 70px; margin:12px; font-size:1.6rem; background:#22cc88; border:none; border-radius:50px;">TAILS</button>
+</div>
+
+<!-- Toss Result -->
+<div id="tossResultPopup" class="popup">
+    <h2 id="tossResultText" style="font-size:3rem; text-align:center; margin-bottom:40px;"></h2>
+    <div id="tossChoice" style="display:none;">
+        <p style="font-size:1.6rem; margin:30px 0;">You won the toss!</p>
+        <button onclick="chooseInnings(true)" style="padding:20px 65px; margin:10px; font-size:1.6rem; background:#00cc77; border:none; border-radius:50px;">BAT FIRST</button>
+        <button onclick="chooseInnings(false)" style="padding:20px 65px; margin:10px; font-size:1.6rem; background:#ff5555; border:none; border-radius:50px;">BOWL FIRST</button>
+    </div>
+    <button id="continueBtn" onclick="proceedAfterToss()" style="display:none; padding:22px 80px; font-size:1.7rem; background:linear-gradient(#00f0ff,#0099cc); color:#000; border:none; border-radius:60px; margin-top:40px;">
+        CONTINUE →
+    </button>
+</div>
+
+<!-- Game Screen -->
+<div id="gameContainer" style="display:none;">
     <div class="pitch"></div>
     
     <div class="hand-container hand-left" id="playerContainer">
-        <div class="hand" id="playerHand">
-            <div class="fingers" id="playerFingers"></div>
-        </div>
+        <div class="hand"><div class="fingers" id="playerFingers"></div></div>
     </div>
 
     <div class="hand-container hand-right" id="cpuContainer">
-        <div class="hand" id="cpuHand">
-            <div class="fingers" id="cpuFingers"></div>
-        </div>
+        <div class="hand"><div class="fingers" id="cpuFingers"></div></div>
     </div>
+
+    <div id="cpuChoice"></div>
 
     <div id="central">
         <div id="bigNumber">—</div>
         <div id="commentary">YOUR MOVE</div>
     </div>
 
-    <div id="statusText" style="position:absolute;top:28px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);padding:14px 45px;border-radius:50px;z-index:40;font-weight:700;border:3px solid var(--primary);font-size:1.1rem;">
+    <div id="statusText" style="position:absolute;top:25px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);padding:14px 50px;border-radius:50px;z-index:40;font-weight:700;border:3px solid var(--primary);">
     </div>
 
-    <div style="position:absolute;top:105px;right:30px;background:rgba(0,0,0,0.85);padding:16px 35px;border-radius:18px;z-index:40;text-align:right;border:2px solid var(--gold);">
-        <div id="scoreDisplay" style="font-size:2.3rem;font-weight:bold;">0 - 0</div>
-        <div id="targetDisplay" style="color:var(--gold);margin-top:5px;">Target —</div>
+    <div style="position:absolute;top:100px;right:25px;background:rgba(0,0,0,0.85);padding:18px 40px;border-radius:20px;z-index:40;text-align:right;border:2px solid var(--gold);">
+        <div id="scoreDisplay" style="font-size:2.4rem;font-weight:bold;">0 - 0</div>
+        <div id="targetDisplay" style="color:var(--gold);margin-top:6px;">Target —</div>
     </div>
 
     <div class="num-pad">
@@ -245,15 +252,17 @@
     </div>
 </div>
 
-<!-- Result Popup -->
+<!-- Result Screen -->
 <div id="resultPopup" class="popup">
-    <h2 id="finalResult" style="font-size:4.5rem;margin:20px 0;"></h2>
-    <div id="finalScore" style="font-size:2.5rem;margin:20px 0;"></div>
-    <button onclick="location.reload()" style="padding:22px 80px;font-size:1.6rem;background:linear-gradient(#ffd700,#ff8800);color:#111;border:none;border-radius:60px;">PLAY AGAIN</button>
+    <h2 id="finalResult" style="font-size:5rem; margin:20px 0;"></h2>
+    <div id="finalScore" style="font-size:2.6rem; margin:25px 0;"></div>
+    <button onclick="location.reload()" style="padding:24px 85px; font-size:1.7rem; background:linear-gradient(#ffd700,#ff8800); color:#111; border:none; border-radius:60px; font-weight:bold;">
+        PLAY AGAIN
+    </button>
 </div>
 
 <script>
-// =============== GAME STATE ===============
+// Game Variables
 let playerScore = 0, cpuScore = 0, balls = 6, innings = 1, target = 0;
 let isPlayerBatting = true;
 let gameActive = false;
@@ -261,25 +270,22 @@ let isProcessing = false;
 
 const $ = id => document.getElementById(id);
 
-// =============== IMPROVED FINGERS ===============
+// Create Fingers
 function createFingers(containerId, num) {
     const container = $(containerId);
     container.innerHTML = '';
-    
     if (num === 6) {
-        const thumb = document.createElement('div');
-        thumb.style.width = '48px';
-        thumb.style.height = '68px';
-        thumb.style.background = 'linear-gradient(#ffe8c4, #e8b878)';
-        thumb.style.borderRadius = '50%';
-        thumb.style.transform = 'rotate(35deg)';
-        thumb.style.marginTop = '12px';
-        container.appendChild(thumb);
+        const t = document.createElement('div');
+        t.style.width = '50px'; t.style.height = '72px';
+        t.style.background = 'linear-gradient(#ffe8c4,#e8b878)';
+        t.style.borderRadius = '50%';
+        t.style.transform = 'rotate(38deg)';
+        container.appendChild(t);
     } else {
         for (let i = 0; i < num; i++) {
             const f = document.createElement('div');
             f.className = 'finger';
-            f.style.height = (48 + i*10) + 'px';
+            f.style.height = (50 + i*11) + 'px';
             container.appendChild(f);
         }
     }
@@ -287,32 +293,37 @@ function createFingers(containerId, num) {
 
 function showPopNumber(num) {
     const el = $('bigNumber');
-    el.textContent = num + (num >= 4 ? "!!!" : "");
+    el.textContent = num;
     el.style.animation = 'popAnim 0.7s';
 }
 
 function animateHand(isPlayer) {
     const container = isPlayer ? $('playerContainer') : $('cpuContainer');
-    container.style.transform = isPlayer 
-        ? 'scale(0.72) translateY(45px)' 
-        : 'scale(0.78) translateY(-35px)';
-    setTimeout(() => container.style.transform = '', 380);
+    container.style.transform = isPlayer ? 'scale(0.7) translateY(50px)' : 'scale(0.75) translateY(-40px)';
+    setTimeout(() => container.style.transform = '', 420);
 }
 
-// =============== PLAY MOVE ===============
+// Main Move
 async function playMove(playerNum) {
     if (!gameActive || isProcessing) return;
     isProcessing = true;
 
     const cpuNum = Math.floor(Math.random() * 6) + 1;
-    
+    $('cpuChoice').style.display = 'none';
+
     animateHand(true);
     animateHand(false);
     createFingers('playerFingers', playerNum);
     createFingers('cpuFingers', cpuNum);
     showPopNumber(playerNum);
 
-    await new Promise(r => setTimeout(r, 450));
+    await new Promise(r => setTimeout(r, 500));
+
+    // Show CPU Choice
+    $('cpuChoice').textContent = `CPU PLAYED ${cpuNum}`;
+    $('cpuChoice').style.display = 'block';
+
+    await new Promise(r => setTimeout(r, 700));
 
     if (playerNum === cpuNum) {
         $('commentary').innerHTML = "🥾 <span style='color:#ff3366'>OUT!</span>";
@@ -323,19 +334,15 @@ async function playMove(playerNum) {
             target = playerScore + 1;
             isPlayerBatting = !isPlayerBatting;
             balls = 6;
-        } else {
-            endGame();
-        }
+        } else endGame();
     } else {
         const runs = isPlayerBatting ? playerNum : cpuNum;
         if (isPlayerBatting) playerScore += runs;
         else cpuScore += runs;
 
         const comm = $('commentary');
-        if (runs === 6) comm.innerHTML = "🚀 SIXER!!! 🔥";
-        else if (runs === 4) comm.innerHTML = "💥 FOUR!!!";
-        else comm.textContent = "Nice Shot!";
-
+        comm.textContent = runs === 6 ? "🚀 SIXER!!!" : runs === 4 ? "💥 FOUR!!" : "Great Shot!";
+        
         if (runs >= 4) new Audio('https://assets.mixkit.co/sfx/preview/mixkit-stadium-crowd-cheer-2023.mp3').play();
         else new Audio('https://assets.mixkit.co/sfx/preview/mixkit-baseball-hit-ball-2073.mp3').play();
     }
@@ -361,27 +368,69 @@ async function playMove(playerNum) {
 }
 
 function updateStatus() {
-    $('statusText').textContent = `${innings}st Innings • ${isPlayerBatting ? 'BATTING' : 'BOWLING'}`;
+    $('statusText').textContent = `${innings === 1 ? '1st' : '2nd'} Innings • ${isPlayerBatting ? 'BATTING' : 'BOWLING'}`;
     if (target > 0) $('targetDisplay').textContent = `Target: ${target}`;
 }
 
-// =============== INITIAL SETUP ===============
+// Toss Logic
+function startToss() {
+    $('homeScreen').style.display = 'none';
+    $('tossScreen').style.display = 'flex';
+}
+
+function flipToss(choice) {
+    const coin = $('coin');
+    coin.style.transform = 'rotate(2520deg)';
+    
+    setTimeout(() => {
+        const isHeads = Math.random() > 0.5;
+        const userWon = (choice === "Heads" && isHeads) || (choice === "Tails" && !isHeads);
+        
+        $('tossScreen').style.display = 'none';
+        $('tossResultPopup').style.display = 'flex';
+        
+        if (userWon) {
+            $('tossResultText').innerHTML = "🎉 YOU WON THE TOSS!";
+            $('tossChoice').style.display = 'block';
+            $('continueBtn').style.display = 'none';
+        } else {
+            $('tossResultText').innerHTML = "Computer won toss and chose to <b>BAT</b> first.";
+            isPlayerBatting = false;
+            $('tossChoice').style.display = 'none';
+            $('continueBtn').style.display = 'block';
+        }
+    }, 2200);
+}
+
+function chooseInnings(bat) {
+    isPlayerBatting = bat;
+    $('tossResultText').innerHTML += `<br><small>You chose to ${bat ? 'BAT' : 'BOWL'} first</small>`;
+    $('tossChoice').style.display = 'none';
+    $('continueBtn').style.display = 'block';
+}
+
+function proceedAfterToss() {
+    $('tossResultPopup').style.display = 'none';
+    $('gameContainer').style.display = 'block';
+    startGame();
+}
+
 function startGame() {
     gameActive = true;
-    balls = 6;
-    innings = 1;
-    playerScore = cpuScore = 0;
-    target = 0;
+    balls = 6; innings = 1; playerScore = 0; cpuScore = 0; target = 0;
     updateStatus();
     createFingers('playerFingers', 3);
     createFingers('cpuFingers', 3);
 }
 
-// Auto start for demo (you can connect it to toss later)
-window.onload = () => {
-    $('gameContainer').style.display = 'block';
-    startGame();
-};
+function endGame() {
+    gameActive = false;
+    const playerWon = (isPlayerBatting && playerScore >= target) || (!isPlayerBatting && cpuScore < target);
+    
+    $('finalResult').innerHTML = playerWon ? "🏆 YOU WIN!" : "💻 COMPUTER WINS";
+    $('finalScore').innerHTML = `Final Score<br><b style="font-size:3.2rem;">${playerScore} - ${cpuScore}</b>`;
+    $('resultPopup').style.display = 'flex';
+}
 
 // Keyboard Support
 document.addEventListener('keydown', e => {
